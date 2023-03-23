@@ -21,3 +21,11 @@ Imeediate goals.:
 - cython based extension
 - polars
 - scipy
+
+# known interesting competitors
+
+- pyoxidizer
+- shiv
+- pex
+
+please share your experience
