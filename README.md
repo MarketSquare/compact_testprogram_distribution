@@ -7,27 +7,13 @@ Zipapps are a sensible way to be able to distribute test programms with reasonab
 The only dependency is a python interpreter with a minimum version number, and the limitation 
 that only zipapp compatible dependencies can be used.
 
-### Using pdm
+### Using pdm with pdm-packer
 
 A python only zipapp without any native code.
 
-Create a pyproject.toml with this content
-
 .. sourcecode:: bash
 
-    [project]
-    name = "zipapprobot"
-    version = "0.0.1"
-    description = ""
-    authors = [{name = "you", email = "you@example.com"}]
-    dependencies = ["robotframework @ git+https://github.com/franzhaas/robotframework.git@zipapp"]
-    requires-python = "~=3.11.0"
-    license = {text = "Apache License"}
-
-the dependencies entry is the place to list the wheels you want to have inside your zipapp
-
-.. sourcecode:: bash
-
+    $ cd examples\basic
     $ pdm install 
     $ pdm pack -m robot:run_cli
     $ py zipapprobot.pyz .
@@ -40,58 +26,23 @@ lets reduce the size of the zipapp.:
 .. sourcecode:: bash
 
     $  -m robot:run_cli -c --compile
-    $ py  -3.11 zipapprobot.pyz .
+    $ py  zipapprobot.pyz .
 
 This comes out at less then 2MB...
 
 ## Zipapps with native code
 
-Some native code libraries can be used with zipapps with these additional limitations
-  - only one platform and one interpreter version is supported
-  - some bootstrap code needs to be run before anything gets imported.
-  
-Imeediate goals.:
-- cffi based extension working
-- numpy
-- pandas
-- cython based extension
-- polars
-- scipy
-
-# known interesting competitors
-
-- pyoxidizer
-- shiv
-- pex
-
-please share your experience
-
-### with pdm
-
-### Using pdm
-
-A python only zipapp without any native code.
-
-Create a pyproject.toml with this content
-
 .. sourcecode:: bash
 
-    [project]
-    name = "zipapprobot"
-    version = "0.0.1"
-    description = ""
-    authors = [{name = "you", email = "you@example.com"}]
-    dependencies = ["robotframework @ git+https://github.com/franzhaas/robotframework.git@zipapp", "numpy", "pandas"]
-    requires-python = "~=3.11.0"
-    license = {text = "Apache License"}
-
-Create a pyproject.toml with this content
-
-
-the dependencies entry is the place to list the wheels you want to have inside your zipapp
-
-.. sourcecode:: bash
-
+    $ cd examples\numpy
     $ pdm install 
-    $ pdm pack -m robot:run_cli
-    $ py -3.11 zipapprobot.pyz .
+    $ pdm pack -m runway:main
+    $ py zipapprobot.pyz .
+
+At this point you are presented with robot output... 
+
+The way this works is that the runway module goes trough the zipapp and extract
+all elements which can not be loaded from a zipapp on the file system, and adds 
+this directory to the sys.path.
+
+This example is not optimised and copies more than actually necessary.
