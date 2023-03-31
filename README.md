@@ -17,7 +17,6 @@ that only zipapp compatible dependencies can be used.
 ### Using pdm with pdm-packer
 
 A python only zipapp without any native code.
-
 .. sourcecode:: bash
 
     $ cd examples\basic
