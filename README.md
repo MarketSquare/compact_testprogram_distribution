@@ -39,21 +39,11 @@ This comes out at less then 2MB...
 
 ## Zipapps with native code
 
-.. sourcecode:: bash
+This is not supported, and generally a bad idea. 
 
-    $ cd examples\numpy
-    $ pdm install 
-    $ pdm pack -m runway:main
-    $ py zipapprobot.pyz .
+However this is technically possible by using importlib.util, and either https://github.com/SeaHOH/memimport or importlib.resources. Thus said, this is hacky and a bit of toppic. There is a example how this _can_ be achieved. In the example directory, but this is a proof that this can generally be achieved, but nothing more than that.
 
-At this point you are presented with robot output... 
-
-The way this works is that the runway module goes trough the zipapp and extract
-all elements which can not be loaded from a zipapp on the file system, and adds 
-this directory to the sys.path.
-
-This example is not optimised and copies more than actually necessary, but this
-makes it easier to deal with the distribution system of for example numpy.
+How well this can be donne heavily depends on the native code in question. Polars smoothly allows to load just the pyd file, and the rest from zipfile, numpy is hard...
 
 ### Open points for improvement
 
