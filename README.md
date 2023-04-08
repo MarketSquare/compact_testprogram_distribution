@@ -31,7 +31,9 @@ At this point you are presented with robot output...
 lets reduce the size of the zipapp.:
 .. sourcecode:: bash
 
-    $  -m robot:run_cli -c --compile
+    $ cd examples\basic
+    $ pdm install 
+    $ pdm pack -m robot:run_cli -c --compile
     $ py  zipapprobot.pyz .
 
 This comes out at less then 2MB...
