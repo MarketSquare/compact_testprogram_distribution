@@ -38,6 +38,23 @@ lets reduce the size of the zipapp.:
 
 This comes out at less then 2MB...
 
+## Performance impact
+
+When using a single robot file, like in the basic example, the zipapp is faster than the native version on my setup.
+However, when using multiple robot files just copy demo.robot a bunch of times), the zipapp version is slower than the native version.
+
+Powershell code to measure runtime.:
+
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    pdm.exe run robot .
+    $sw.Stop()
+    $sw.Elapsed
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+    py zipapprobot.pyz .
+    $sw.Stop()
+    $sw.Elapsed
+
+
 ## Zipapps with native code
 
 This is not supported, and generally a bad idea. 
