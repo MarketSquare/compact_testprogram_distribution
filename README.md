@@ -17,24 +17,25 @@ that only zipapp compatible dependencies can be used.
 ### Using pdm with pdm-packer
 
 A python only zipapp without any native code.
-.. sourcecode:: bash
 
+``` bash
     $ cd examples\basic
     $ pdm install 
     $ pdm pack -m robot:run_cli
     $ py zipapprobot.pyz .
-
+```
 At this point you are presented with robot output... 
 
 ### going limbo
 
 lets reduce the size of the zipapp.:
-.. sourcecode:: bash
 
+``` bash
     $ cd examples\basic
     $ pdm install 
     $ pdm pack -m robot:run_cli -c --compile
     $ py  zipapprobot.pyz .
+```
 
 This comes out at less then 2MB...
 
@@ -43,8 +44,7 @@ This comes out at less then 2MB...
 When using a single robot file, like in the basic example, the zipapp is faster than the native version on my setup.
 However, when using multiple robot files just copy demo.robot a bunch of times), the zipapp version is slower than the native version.
 
-Powershell code to measure runtime.:
-
+``` powershell
     $sw = [Diagnostics.Stopwatch]::StartNew()
     pdm.exe run robot .
     $sw.Stop()
@@ -53,7 +53,7 @@ Powershell code to measure runtime.:
     py zipapprobot.pyz .
     $sw.Stop()
     $sw.Elapsed
-
+```
 
 ## Zipapps with native code
 
