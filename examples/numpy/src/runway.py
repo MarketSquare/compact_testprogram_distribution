@@ -4,6 +4,9 @@ import zipfile
 import os
 import sys
 import robot
+import zipimport
+
+zipimport.zipimporter.invalidate_caches = lambda _: None
 
 
 zipapplocation = pathlib.Path(sys.path[0])
