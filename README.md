@@ -14,6 +14,10 @@ the depency list becomes.:
 The only dependency is a python interpreter with a minimum version number, and the limitation 
 that only zipapp compatible dependencies can be used.
 
+For python versions 3.10 and 3.11 it is recomended to disable zipimport.zipimporter.invalidate_caches 
+as it has a large performance inpact. Disabeling it, looses the feature to modify the zipapp during
+runtime...
+
 ### Using pdm with pdm-packer
 
 A python only zipapp without any native code.
@@ -21,7 +25,7 @@ A python only zipapp without any native code.
 ``` bash
     $ cd examples\basic
     $ pdm install 
-    $ pdm pack -m robot:run_cli
+    $ pdm pack -m runway:main
     $ py zipapprobot.pyz .
 ```
 At this point you are presented with robot output... 
@@ -33,7 +37,7 @@ lets reduce the size of the zipapp.:
 ``` bash
     $ cd examples\basic
     $ pdm install 
-    $ pdm pack -m robot:run_cli -c --compile
+    $ pdm pack -m runway:main -c --compile
     $ py  zipapprobot.pyz .
 ```
 
