@@ -45,8 +45,7 @@ This comes out at less then 2MB...
 
 ## Performance impact
 
-When using a single robot file, like in the basic example, the zipapp is faster than the native version on my setup.
-However, when using multiple robot files (just copy demo.robot a bunch of times), the zipapp version is slower than the native version.
+The limbo zipapp is faster than the native version on my setup for this example.
 
 ``` powershell
     $sw = [Diagnostics.Stopwatch]::StartNew()
