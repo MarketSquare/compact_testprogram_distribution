@@ -3,6 +3,6 @@ name = "zipapprobot"
 version = "0.0.1"
 description = ""
 authors = [{name = "you", email = "you@example.com"}]
-dependencies = ["robotframework @ git+https://github.com/franzhaas/robotframework.git@zipapp", "numpy", "pandas"]
+dependencies = ["robotframework>6.1", "numpy", "pandas"]
 requires-python = "~=3.11.0"
 license = {text = "Apache License"}
