@@ -36,4 +36,4 @@ jobs:
         cd examples/basic
         python zipapprobot.pyz .
         cd ../numpy
-        pdm pack -m runway:main
+        python zipapprobot.pyz .
