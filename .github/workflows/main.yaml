@@ -28,6 +28,7 @@ jobs:
         pdm install
         pdm pack -m runway:main
         cd ../numpy
+        pdm install
         pdm pack -m runway:main
 
     - name: Run tests
