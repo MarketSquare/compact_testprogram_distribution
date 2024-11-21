@@ -82,7 +82,8 @@ The methods to handle native code have not been tried there.
 # Interesting alternatives which provide improvements
 
  - memimport allows to import pyd files from within zipfiles. But needs to be loaded itself by other means.
- - pyoxidizer creates a true single file executable. 
+ - pyoxidizer creates a true single file executable.
+ - https://github.com/test-fullautomation/RobotFramework_AIO
  - shiv
  - pex 
 
