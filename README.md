@@ -79,11 +79,11 @@ are closed and the directory can be removed.
 
 The methods to handle native code have not been tried there.
 
-# Interesting alternatives which provide improvements
+# Interesting alternatives which provide an alternative set of advantages/drawbacks
 
  - memimport allows to import pyd files from within zipfiles. But needs to be loaded itself by other means.
  - pyoxidizer creates a true single file executable.
- - https://github.com/test-fullautomation/RobotFramework_AIO
+ - [RobotFramework AIO is an all-in-one installer for Robot Framework, integrating preconfigured VSCodium and python to simplify setup and execution of test automation on both Windows and Linux systems.](https://github.com/test-fullautomation/RobotFramework_AIO)
  - shiv
  - pex 
 
