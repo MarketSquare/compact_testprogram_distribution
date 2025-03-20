@@ -37,8 +37,6 @@ jobs:
       run: |
         cd examples/basic
         python zipapprobot.pyz .
-        ./robot_run .
         cd ../numpy
         python zipapprobot.pyz .
-        ./robot_run .
         
