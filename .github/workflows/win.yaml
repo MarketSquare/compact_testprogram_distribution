@@ -30,6 +30,6 @@ jobs:
         pip install robotframework cx_Freeze numpy pandas
         cxfreeze build
         cd examples/basic
-        ../../build/exe.win-amd64-3.12/robot_run.exe . 
+        ../../build/exe.win-amd64-3.12/robot.exe . 
         cd ../../examples/numpy
-        ../../build/exe.win-amd64-3.12/robot_run.exe . 
+        ../../build/exe.win-amd64-3.12/robot.exe . 
