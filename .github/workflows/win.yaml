@@ -28,7 +28,7 @@ jobs:
         python -m venv venv
         venv/Scripts/activate
         pip install robotframework cx_Freeze
-        where robot
+        cp venv/Scripts/robot robot
         python setup.py build
         cd examples/basic
         ../../build/*/robot_run . 
