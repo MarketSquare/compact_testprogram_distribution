@@ -1,0 +1,12 @@
+[project]
+name = "robot"
+version = "0.1"
+description = ""
+
+[tool.cxfreeze]
+executables = [
+    {script = "robot_starter.py", base = "console", target_name="robot"}
+]
+
+[tool.cxfreeze.build_exe]
+packages = ["robot", "numpy", "pandas"]
