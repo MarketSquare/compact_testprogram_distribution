@@ -7,7 +7,7 @@ build_options = {'packages': ["robot"], 'excludes': []}
 base = 'console'
 
 executables = [
-    Executable('./venv/bin/robot', base=base, target_name = 'robot_run')
+    Executable('robot', base=base, target_name = 'robot_run')
 ]
 
 setup(name='robot',

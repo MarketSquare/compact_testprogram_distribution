@@ -33,7 +33,7 @@ jobs:
         cd ..
         cd ..
         python -m pip install robotframework
-        which robot
+        cp $(which robot) robot
         python setup.py build
         cp build/exe.linux-x86_64-3.12/robot_run examples/basic
         python -m pip install numpy pandas
