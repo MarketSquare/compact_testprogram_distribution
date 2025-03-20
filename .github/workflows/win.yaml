@@ -30,16 +30,13 @@ jobs:
         pip install robotframework cx_Freeze
         cp venv/Lib/site-packages/robot/run.py robot
         python setup.py build
-        dir build
-        dir build\exe.win-amd64-3.12\
         cd examples/basic
-        ../../build/*/robot_run . 
+        build/exe.win-amd64-3.12/robot_run.exe . 
     - name: numpy
       run: |
         python -m venv venv
         venv/Scripts/activate
         pip install robotframework cx_Freeze numpy pandas
-        where robot
-        python setup2.py build
+        python setup.py build
         cd examples/numpy
-        ../../build/*/robot_run .
+        build/exe.win-amd64-3.12/robot_run.exe . 
