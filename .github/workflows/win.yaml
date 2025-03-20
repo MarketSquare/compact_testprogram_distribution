@@ -21,13 +21,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.13'
+        python-version: '3.12'
 
     - name: basic
       run: |
         python -m venv venv
         venv/Scripts/activate
-        pip install robotframework cx_Freeze msilib
+        pip install robotframework cx_Freeze
         where robot
         python setup.py build
         cd examples/basic
