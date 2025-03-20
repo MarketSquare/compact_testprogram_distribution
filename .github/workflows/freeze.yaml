@@ -20,10 +20,21 @@ jobs:
       with:
         python-version: '3.13'
 
-    - name: Install dependencies
+    - name: basic
       run: |
         python -m venv venv
         source venv/bin/activate
         pip install robotframework cx_Freeze
         cp $(which robot) robot
         python setup.py build
+        cd examples/basic
+        ../../build/*/robot_run . 
+    - name: numpy
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install robotframework cx_Freeze numpy pandas
+        cp $(which robot) robot
+        python setup.py build
+        cd examples/numpy
+        ../../build/*/robot_run .
