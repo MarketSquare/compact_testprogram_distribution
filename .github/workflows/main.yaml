@@ -23,17 +23,29 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pdm pdm-packer
+        pip install pdm pdm-packer cx_freeze
         cd examples/basic
         pdm install
         pdm pack -m runway:main
         cd ../numpy
         pdm install
         pdm pack -m runway:main
+        cd ..
+        python -m pip install robotframework
+        python setup.py build
+        cp build/exe.linux-x86_64-3.12/robot_run examples/basic
+        python -m pip install numpy pandas
+        python setup.py build
+        cp build/exe.linux-x86_64-3.12/robot_run examples/numpy
+
+
 
     - name: Run tests
       run: |
         cd examples/basic
         python zipapprobot.pyz .
+        ./robot_run .
         cd ../numpy
         python zipapprobot.pyz .
+        ./robot_run .
+        
