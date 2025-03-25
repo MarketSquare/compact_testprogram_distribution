@@ -1,0 +1,44 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * 0'  # This runs the workflow every Sunday at midnight UTC
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+          os: [ubuntu-latest]
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.13'
+
+    - name: basic
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install robotframework
+        pip install --extra-index-url https://test.pypi.org/simple/ cx-Freeze==8.0.0.2852.dev1742879029
+        cp $(which robot) robot
+        python setup.py build
+        cd examples/basic
+        ../../build/*/robot_run . 
+    - name: numpy
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install robotframework cx_Freeze numpy pandas
+        cp $(which robot) robot
+        python setup2.py build
+        cd examples/numpy
+        ../../build/*/robot_run .
