@@ -79,6 +79,11 @@ are closed and the directory can be removed.
 
 The methods to handle native code have not been tried there.
 
+## using frozen executables
+Different to Zipapp, they bring their own interpreter and are not cross platform. There are examples for windows and linux inside the .github/workflows directory. 
+
+Keep in mind that robotframework loads keyword libraries in a way that is not understood by the freezing process, so it is necessary to manually specify which modules to add to the frozen executable. The example source code can be found in `pyproject.toml`
+
 # Interesting alternatives which provide an alternative set of advantages/drawbacks
 
  - memimport allows to import pyd files from within zipfiles. But needs to be loaded itself by other means.
