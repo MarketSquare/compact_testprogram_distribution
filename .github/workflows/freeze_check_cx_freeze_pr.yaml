@@ -27,7 +27,8 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
-        pip install robotframework cx-Freeze
+        pip install git+https://github.com/robotframework/robotframework/pull/5390/head
+        pip install cx-Freeze
         cp $(which robot) robot
         python setup.py build
         cd examples/basic
@@ -36,7 +37,8 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
-        pip install robotframework cx_Freeze numpy pandas
+        pip install git+https://github.com/robotframework/robotframework/pull/5390/head
+        pip install cx_Freeze numpy pandas
         cp $(which robot) robot
         python setup2.py build
         cd examples/numpy
