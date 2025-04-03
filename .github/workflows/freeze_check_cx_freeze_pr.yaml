@@ -27,8 +27,7 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
-        pip install robotframework
-        pip install --extra-index-url https://test.pypi.org/simple/ cx-Freeze==8.0.0.2852.dev1742879029
+        pip install robotframework cx-Freeze
         cp $(which robot) robot
         python setup.py build
         cd examples/basic
