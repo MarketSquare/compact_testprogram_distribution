@@ -1,4 +1,4 @@
-name: Python application
+name: zipapp using pdm on ubuntu
 
 on:
   push:
