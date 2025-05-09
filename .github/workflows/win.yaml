@@ -1,4 +1,4 @@
-name: Python application
+name: frozen app with cx_freeze on windows
 
 on:
   push:
