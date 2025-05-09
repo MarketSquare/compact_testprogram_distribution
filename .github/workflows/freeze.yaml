@@ -1,5 +1,4 @@
-name: Python application
-
+name: frozen app using cx_freeze on ubuntu
 on:
   push:
     branches: [ "main" ]
@@ -36,7 +35,7 @@ jobs:
       run: |
         python -m venv venv
         source venv/bin/activate
-        pip install robotframework cx_Freeze!=8.0.0 numpy pandas
+        pip install robotframework cx_Freeze numpy pandas
         cp $(which robot) robot
         python setup2.py build
         cd examples/numpy
