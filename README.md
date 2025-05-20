@@ -1,9 +1,9 @@
-# compact_testprogram_distribution
+# compact testprogram distribution
 
-Zipapps are a sensible way to be able to distribute test programms with reasonable dependencies.
+Zipapps are a sensible way to be able to distribute test programs with reasonable dependencies.
 
 For executing robotframework in order to perform production facility / test floor automated tasks
-the depency list becomes.:
+the dependency list becomes.:
 
  - The operating system
  - The non python drivers for the used equipment
@@ -14,8 +14,8 @@ the depency list becomes.:
 The only dependency is a python interpreter with a minimum version number, and the limitation 
 that only zipapp compatible dependencies can be used.
 
-For python versions 3.10 and 3.11 it is recomended to disable zipimport.zipimporter.invalidate_caches 
-as it has a large performance inpact. Disabeling it, looses the feature to modify the zipapp during
+For python versions 3.10 and 3.11 it is recommended to disable zipimport.zipimporter.invalidate_caches 
+as it has a large performance impact. Disabling it, looses the feature to modify the zipapp during
 runtime...
 
 ### Using pdm with pdm-packer
@@ -30,9 +30,9 @@ A python only zipapp without any native code.
 ```
 At this point you are presented with robot output... 
 
-### going limbo
+### Minimal Zipapp Build (a.k.a. Limbo Mode)
 
-lets reduce the size of the zipapp.:
+let’s reduce the size of the zipapp.:
 
 ``` bash
     $ cd examples\basic
@@ -41,7 +41,7 @@ lets reduce the size of the zipapp.:
     $ py  zipapprobot.pyz .
 ```
 
-This comes out at less then 2MB...
+This results in a zipapp of less than 2MB in size, making it highly portable.
 
 ## Performance impact
 
@@ -62,38 +62,74 @@ The limbo zipapp is faster than the native version on my setup for this example.
 
 This is not supported, and generally a bad idea. 
 
-However this is technically possible by using importlib.util, and either https://github.com/SeaHOH/memimport or importlib.resources. Thus said, this is hacky and a bit of toppic. There is a example how this _can_ be achieved. In the example directory, but this is a proof that this can generally be achieved, but nothing more than that.
+However this is technically possible by using importlib.util, and either https://github.com/SeaHOH/memimport or importlib.resources. Thus said, this is hacky
+and a bit off topic. There is an example of how this _can_ be achieved. In the example directory, it is a proof that this can generally be achieved, but
+nothing more than that.
 
-How well this can be donne heavily depends on the native code in question. Polars smoothly allows to load just the pyd file, and the rest from zipfile, numpy is hard...
+The feasibility of this approach heavily depends on the specific native code. For instance, polars works relatively well, whereas numpy presents significant challenges.
 
-### Open points for improvement
+## cx_freeze
 
-#### Windows
+cx_freeze can create many targets, the one I personally find most interesting is bdist_appimage (currently linux only). The resulting file with 34MBytes is reasonably
+close to the size of a python installer (28MBytes), and is a self contained, single file executable. Being dependent only of the operating system and drivers.
 
-The given example clutters the tmp directory. This can be solved by using a 
-bootstraping process to prepare the environment, and a seperate process to use
-it, so when this child process terminated, all file handles to the environment
-are closed and the directory can be removed.
+cx_freeze does use script entry points.
 
-#### Linux / MacOS / XXXBSD
+Robotframework does come with a script, which is documented [here](https://robot-framework.readthedocs.io/en/latest/autodoc/robot.html#module-robot.run).
 
-The methods to handle native code have not been tried there.
+What is not documented (and as far as I understand from this [discussion](https://github.com/robotframework/robotframework/issues/5384) will not be, this
+[pull request](https://github.com/robotframework/robotframework/pull/5390) was provided to remove pythonpathsetter), is that this script needs to live in 
+the source tree, and can not use an installed robotframework, like in the zipapp/frozenapp/etc use case.
 
-## using frozen executables
-Different to Zipapp, they bring their own interpreter and are not cross platform. There are examples for windows and linux inside the .github/workflows directory. 
+### background
+It is possible to use robotframework straight from the source tree, without installation or configuring PYTHONPATH. This feature is not documented in the 
+end user documentation, and not explained in the CONTRIBUTING.rst.
 
-Keep in mind that robotframework loads keyword libraries in a way that is not understood by the freezing process, so it is necessary to manually specify which modules to add to the frozen executable. The example source code can be found in `pyproject.toml`
+This is implemented using the `pythonpathsetter` module which can be loaded by `import pythonpathsetter` when the robotframework is run from the script,
+additionally by `import robot.pythonpathsetter` when the script runs inside an environment where robotframework was installed into, and only using 
+`import robot.pythonpathsetter`. This module changes the the `sys.path` at runtime, which can cause severe confusion when debugging dependency issues.
 
-# Interesting alternatives which provide an alternative set of advantages/drawbacks
+These are the symptoms to look out for.:
+ 1 is that robotframework fails, as pythonpathsetter can not be imported. 
+ 2 you can use ```import robot; robot.run()``` when debugging from a REPL.
 
- - memimport allows to import pyd files from within zipfiles. But needs to be loaded itself by other means.
- - pyoxidizer creates a true single file executable.
- - [RobotFramework AIO is an all-in-one installer for Robot Framework, integrating preconfigured VSCodium and python to simplify setup and execution of test automation on both Windows and Linux systems.](https://github.com/test-fullautomation/RobotFramework_AIO)
- - shiv
- - pex 
+ In total at the time of writing there are 34 instances of ```sys.path``` and 89 ```__file__```in the source, all of them bring the risk of causing issues 
+ with zipapp/frozenapp usage. When I went over the source the first time, I missed how the ```pythonpathsetter``` can cause issues.
 
-# Infrastructure that is suitable to handle the environments
+### solutions
+#### make sure pythonpathsetter exits
+Install a  ```pythonpathsetter.py``` into your environment. Be aware future releases of robotframework will call a ```pythonpathsetter.set_pythonpath``` 
+which is in the source tree where you would expect ```robot.pythonpathsetter.set_pythonpath```. It doesnt need to do anything but if it is missing the code 
+will not work. This change is introduced in response to linter messages.
 
- - chocolatey
- - salt
+#### do not use robotframework distributed scripts
+Provide your own start script.
+
+#### do not modify the ```sys.path``` (would need to come from upstream)
+Placing this code into the src directory, next to the robot directory of the source distribution. Using this code allows the robot code base to reduce 
+the modifications of the ```sys.path```, while keeping the feature to use robotframework straight from the source directory.
+
+```python
+import pathlib
+
+if __name__ == "__main__":
+    try:
+        source = (pathlib.Path(__file__).parent / "robot" / "run.py")
+        with source.open() as run:
+            source_code = run.read()
+    except Exception as e:
+        print(f"""run_rf is a tool allowing you to start robotframework from a source tree without installing anything. Exception {e} occurred.
+              
+              This script should not be used outside of robotframework development, and is not part of robotframework itself.""")
+    exec(source_code)
+```
+
+### consequence
+There are alternatives available.
+
+ - docker (way more heavy weight, user rights need to be managed)
+ - astral [uv](https://docs.astral.sh/uv/) ```uvx --from robotframework==7.2.2 --with numpy==2.2.6 robot``` (not a single file, needs access to wheels...)
  - ...
+
+I see value in frozen/zipapps and encourage everyone who is interested to tinker with them in an effort to learn. They are often faster than regular
+environments, easier to deploy and manage. However I would not recommend using them in a productive environment.
