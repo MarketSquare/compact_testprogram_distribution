@@ -1,4 +1,4 @@
-name: frozen app with cx_freeze on windows
+name: frozen app with cx_freeze on linux
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-          os: [windows-latest]
+          os: [ubuntu-latest]
 
     steps:
     - name: Check out repository
@@ -26,4 +26,4 @@ jobs:
       run: |
         cd cx_Freeze_win
         uvx --from cx_Freeze --with numpy,pandas,robotframework cxfreeze build || true
-        build/exe.win-amd64-3.9/robot.exe ../examples/
+        build/*/robot ../examples/

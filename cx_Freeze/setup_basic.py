@@ -2,12 +2,12 @@ from cx_Freeze import setup, Executable
 
 # Dependencies are automatically detected, but it might need
 # fine tuning.
-build_options = {'packages': ["robot", "numpy", "pandas"], 'excludes': []}
+build_options = {'packages': ["robot"], 'excludes': []}
 
 base = 'console'
 
 executables = [
-    Executable('robot', base=base, target_name = 'robot_run')
+    Executable('robot_starter.py', base=base, target_name = 'robot_run_basic')
 ]
 
 setup(name='robot',
