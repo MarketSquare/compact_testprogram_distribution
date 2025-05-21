@@ -111,7 +111,13 @@ Apart of improving the situation for frozenapp/zipapp use cases this brings thes
  1) Reduction of total complexity (cyclomatic complexity goes from 18329 to 18307 a delta of 22, number of lines from 58033 to 57967, a delta of 134)
  2) The ```pythonpathsetter``` feature is not advertised. It is likely that its most common use is in Robot Framework quality control.
     - if that would make testing easier/faster for multiple python installations that might be worth the risk.
-    - solutions like [uvx](https://docs.astral.sh/uv/) ```uvx --python 3.14 --from . --reinstall robot``` are available, taking care of warehousing the python versions
+    - solutions like [uvx](https://docs.astral.sh/uv/) ```uvx --python 3.14 --from . --reinstall robot``` are available, taking care of warehousing the python versions.
+    - Virutal environments are cheap, get two.
+    - Have you heard of ziapps? You can have the Robot Framework version you like installed into a single file, and then use the python of choice to execute it!
+    - Have you heard of frozen apps? You can have Robot Framework with python frozen together ahead of time!
+ 3) The fact that Robot Framework "script edition" ignores installed Robot Framework but requires to be part of the Robot Framework source tree
+    are two unusual properties, which can cause confusion.
+      
  It is hard to get this point across, but the "unpack into a directory" distribution method is very much outdated by now.
 
 #### do not modify the ```sys.path``` (would need to come from upstream)
