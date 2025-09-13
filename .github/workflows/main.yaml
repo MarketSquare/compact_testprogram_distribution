@@ -27,7 +27,7 @@ jobs:
         cd examples/basic
         uvx pdm install
         uvx --with pdm-packer pdm pack -m runway:main
-        uvx --with pdm-packer pdm pack -o robotfileincluded.pyz -m runway:main2
+        uvx --with pdm-packer pdm pack -o robotfileincluded.pyz -m runway:main_with_packaged_robot_file
         cd ../numpy
         uvx pdm install
         uvx --with pdm-packer pdm pack -m runway:main
