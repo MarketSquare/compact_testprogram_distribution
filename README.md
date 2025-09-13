@@ -14,9 +14,8 @@ the dependency list becomes.:
 The only dependency is a python interpreter with a minimum version number, and the limitation 
 that only zipapp compatible dependencies can be used.
 
-For python versions 3.10 and 3.11 it is recommended to disable zipimport.zipimporter.invalidate_caches 
-as it has a large performance impact. Disabling it, loses the feature to modify the zipapp during
-runtime...
+Python versions 3.10 and 3.11 are not recommended as a performance issue with zipimport.zipimporter.invalidate_caches 
+causes a large performance impact. Python 3.12 and 3.13 do not have this problem.
 
 ### Using pdm with pdm-packer
 
