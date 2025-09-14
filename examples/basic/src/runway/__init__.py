@@ -18,4 +18,4 @@ def main_with_packaged_robot_file():
     the packaging of the robot file is configured in setup.cfg
     """
     with importlib.resources.path(runway.data, "demo.robot") as path:
-        robot.run(str(path))
+        robot.run(path)
