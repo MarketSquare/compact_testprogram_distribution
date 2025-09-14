@@ -1,7 +1,7 @@
 import robot
 import zipimport
 import importlib.resources
-import runway.data
+import runway
 
 
 zipimport.zipimporter.invalidate_caches = lambda _: None
@@ -17,5 +17,5 @@ def main_with_packaged_robot_file():
 
     the packaging of the robot file is configured in setup.cfg
     """
-    with importlib.resources.path(runway.data, "demo.robot") as path:
+    with importlib.resources.path(runway, "data") as path:
         robot.run(path)
